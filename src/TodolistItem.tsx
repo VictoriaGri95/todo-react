@@ -1,7 +1,8 @@
 import {Button} from "./Button.tsx";
 import type {FilterValuesType, TodolistType} from "./App.tsx";
-import {useState} from "react";
 import {Task} from "./Task.tsx";
+import {CreateItemForm} from "./CreateItemForm.tsx";
+import {EditableSpan} from "./EditableSpan.tsx";
 
 type Props = {
   id: string;
@@ -13,6 +14,8 @@ type Props = {
   changeTodolistFilter: (filter: FilterValuesType, todolistId: TodolistType['id']) => void
   changeTaskStatus: (taskId: TaskType["id"], isDone: TaskType['isDone'], todolistId: TodolistType['id']) => void
   deleteTodolist: (todolistId: TodolistType['id']) => void
+  changeTodolistTitle: (title: TodolistType['title'], todolistId: TodolistType['id']) => void
+  changeTaskTitle: (taskId: TaskType["id"], title: TaskType['title'], todolistId: TodolistType['id']) => void
 }
 
 export type TaskType = {
@@ -20,7 +23,6 @@ export type TaskType = {
   title: string
   isDone: boolean
 }
-
 
 export const TodolistItem = ({
                                id,
@@ -32,60 +34,42 @@ export const TodolistItem = ({
                                changeTodolistFilter,
                                changeTaskStatus,
                                deleteTodolist,
+                               changeTodolistTitle,
+                               changeTaskTitle,
                              }: Props) => {
 
-  const [taskInput, setTaskInput] = useState("");
-  const [error, setError] = useState("");
+  // const [taskInput, setTaskInput] = useState("");
+  // const [error, setError] = useState("");
 
-  const createTaskHandler = () => {
-    const trimmedTitle = taskInput.trim()
-    if (trimmedTitle) {
-      createTask(trimmedTitle, id);
-    } else {
-      setError("true");
-    }
-
-    setTaskInput("");
+  const createTaskHandler = (title: TaskType['title']) => {
+    createTask(title, id);
   }
 
-  const isTaskInputValid = taskInput && taskInput.length <= 10
+  const changeTodolistTitleHandler = (newTitle: TaskType['title']) => {
+    changeTodolistTitle(newTitle, id)
+  }
+
+  // const isTaskInputValid = taskInput && taskInput.length <= 10
   return (
     <div>
-      <h3>{title}
-    <Button title={"Delete All"} onClick={() => deleteTodolist(id)}/></h3>
+      <h3>
+        <EditableSpan
+          title={title}
+          changeTitle={changeTodolistTitleHandler}
+        />
+        <Button
+          title={"Delete All"}
+          onClick={() => deleteTodolist(id)}
+        /></h3>
 
-  {/*<span>{filter}</span>*/}
-  <div>
-  <input
-    value={taskInput}
-  onChange={(e) => {
-    error && setError("false")
-    setTaskInput(e.currentTarget.value)
-  }}
-  onKeyDown={(e) => {
-    if (e.key === "Enter" && isTaskInputValid) {
-      createTaskHandler()
-    }
-  }}
-  className={error ? "error" : ""}
-  />
-  <Button
-  title={'+'}
-  onClick={createTaskHandler}
-  disabled={!taskInput || taskInput.length > 10}
-  />
-  </div>
+      {/*<span>{filter}</span>*/}
 
-  {!error && !taskInput && <div>Max title length is 10 charters</div>}
-    {taskInput.length > 10 &&
-    <div style={{color: "red"}}>Max title length is 10 charters</div>}
-      {taskInput && isTaskInputValid &&
-      <div>Your title length is {taskInput.length} charters</div>}
-        {error && <div style={{color: "red"}}>Enter valid title</div>}
+      {/*дает название для таски*/}
+      <CreateItemForm createItem={createTaskHandler} />
 
-          {
-            tasks.length === 0
-              ? <p>Тасок нет</p>
+      {
+        tasks.length === 0
+          ? <p>Тасок нет</p>
           : <ul>
             {
               tasks.map(task => {
@@ -96,40 +80,43 @@ export const TodolistItem = ({
 
                   const deleteTaskHandler = () => deleteTask(task.id, id)
 
-
+                  const changeTaskTitleHandler = (newTitle: TaskType['title']) => {
+                    changeTaskTitle(task.id, newTitle, id)
+                  }
                   return (
                     <Task
                       key={task.id}
-                  title={task.title}
-                  isDone={task.isDone}
-                  id={task.id}
-                  deleteTask={deleteTaskHandler}
-                  changeTaskStatus={changeTaskStatusHandler}
-                  className={task.isDone ? "task-done" : "task"}
-                  />
-                )
+                      title={task.title}
+                      isDone={task.isDone}
+                      id={task.id}
+                      deleteTask={deleteTaskHandler}
+                      changeTaskStatus={changeTaskStatusHandler}
+                      className={task.isDone ? "task-done" : "task"}
+                      changeTaskTitle={changeTaskTitleHandler}
+                    />
+                  )
                 }
               )
             }
           </ul>
-          }
-          <div>
-            <Button
-              title={'All'}
+      }
+      <div>
+        <Button
+          title={'All'}
           onClick={() => changeTodolistFilter("All", id)}
           className={filter === "All" ? "filter-btn-active" : ""}
-          />
-          <Button
+        />
+        <Button
           title={'Active'}
           onClick={() => changeTodolistFilter("Active", id)}
           className={filter === "Active" ? "filter-btn-active" : ""}
-          />
-          <Button
+        />
+        <Button
           title={'Completed'}
           onClick={() => changeTodolistFilter("Completed", id)}
           className={filter === "Completed" ? "filter-btn-active" : ""}
-          />
-          </div>
-          </div>
-        )
-        }
+        />
+      </div>
+    </div>
+  )
+}

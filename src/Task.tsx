@@ -1,5 +1,6 @@
 import {Button} from "./Button.tsx";
 import type {TaskType} from "./TodolistItem.ts";
+import {EditableSpan} from "./EditableSpan.tsx";
 
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
   deleteTask: (taskId: TaskType['id']) => void
   changeTaskStatus: (isDone: boolean) => void
   className: string
+  changeTaskTitle: (newTitle: TaskType['title']) => void
 }
 
 export const Task = ({
@@ -17,7 +19,8 @@ export const Task = ({
                        isDone,
                        deleteTask,
                        changeTaskStatus,
-                       className
+                       className,
+                       changeTaskTitle,
                      }: Props) => {
   return (
     <li>
@@ -30,7 +33,11 @@ export const Task = ({
         checked={isDone}
         onChange={(e) => changeTaskStatus(e.currentTarget.checked)}
       />
-      <span className={className}>{title}</span>
+      <EditableSpan
+        className={className}
+        title={title}
+        changeTitle={changeTaskTitle}
+      />
 
     </li>
   )

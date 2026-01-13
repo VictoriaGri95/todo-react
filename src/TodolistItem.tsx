@@ -15,9 +15,9 @@ type Props = {
   deleteTask: (taskId: TaskType['id'], todolistId: TodolistType['id']) => void
   createTask: (title: TaskType['title'], todolistId: TodolistType['id']) => void
   changeTodolistFilter: (filter: FilterValuesType, todolistId: TodolistType['id']) => void
-  changeTaskStatus: (taskId: TaskType["id"], isDone: TaskType['isDone'], todolistId: TodolistType['id']) => void
   deleteTodolist: (todolistId: TodolistType['id']) => void
   changeTodolistTitle: (title: TodolistType['title'], todolistId: TodolistType['id']) => void
+  changeTaskStatus: (taskId: TaskType["id"], isDone: TaskType['isDone'], todolistId: TodolistType['id']) => void
   changeTaskTitle: (taskId: TaskType["id"], title: TaskType['title'], todolistId: TodolistType['id']) => void
 }
 

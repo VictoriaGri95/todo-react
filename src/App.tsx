@@ -173,9 +173,9 @@ const App = () => {
               <MenuIcon />
             </IconButton>
             <div>
-              <Switch onChange={()=> setIsDark(!isDark)} />
-              <NavButton >Sign in</NavButton>
-              <NavButton >Sign up</NavButton>
+              <Switch onChange={() => setIsDark(!isDark)} />
+              <NavButton>Sign in</NavButton>
+              <NavButton>Sign up</NavButton>
               <NavButton background={theme.palette.primary.light}>Faq</NavButton>
             </div>
           </Toolbar>
@@ -195,7 +195,6 @@ const App = () => {
           >
             {todolistComponents}
           </Grid>
-
 
         </Container>
       </ThemeProvider>

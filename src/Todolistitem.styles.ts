@@ -8,6 +8,6 @@ export const containerSx: SxProps = {
 export const getListItemSx = (isDone: boolean): SxProps => ({
   // p: 0,
   // justifyContent: 'space-between',
-  fontWeight: isDone ?  'normal' : 'bold',
+  fontWeight: isDone ? 'normal' : 'bold',
   opacity: isDone ? 0.5 : 1,
 })

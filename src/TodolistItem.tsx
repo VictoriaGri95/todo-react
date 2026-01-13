@@ -1,4 +1,4 @@
-// import {Button} from "./Button.tsx";
+
 import type {FilterValuesType, TodolistType} from "./App.tsx";
 import {Task} from "./Task.tsx";
 import {CreateItemForm} from "./CreateItemForm.tsx";
@@ -41,8 +41,6 @@ export const TodolistItem = ({
                                changeTaskTitle,
                              }: Props) => {
 
-  // const [taskInput, setTaskInput] = useState("");
-  // const [error, setError] = useState("");
 
   const createTaskHandler = (title: TaskType['title']) => {
     createTask(title, id);
@@ -51,7 +49,7 @@ export const TodolistItem = ({
   const changeTodolistTitleHandler = (newTitle: TaskType['title']) => {
     changeTodolistTitle(newTitle, id)
   }
-
+  //
   // const isTaskInputValid = taskInput && taskInput.length <= 10
   return (
     <Box sx={{minWidth: '270px'}}>

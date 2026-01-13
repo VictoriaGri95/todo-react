@@ -4,6 +4,23 @@ import {v1} from 'uuid'
 import {TodolistItem} from './TodolistItem'
 import {getFilteredTasks} from "./utils.ts";
 import {CreateItemForm} from "./CreateItemForm.tsx";
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import {
+  Container, createTheme,
+  CssBaseline,
+  Grid,
+  Paper, Switch,
+  ThemeProvider
+} from "@mui/material";
+import {containerSx} from "./Todolistitem.styles.ts";
+import {NavButton} from "./NavButton.ts";
+import {
+  indigo,
+  yellow
+} from "@mui/material/colors";
 
 export type TodolistType = {
   id: string
@@ -110,28 +127,80 @@ const App = () => {
 
   const todolistComponents = todolists.map(tl => {
     return (
-      <TodolistItem
-        key={tl.id}
-        id={tl.id}
-        title={tl.title}
-        filter={tl.filter}
-        tasks={getFilteredTasks(tasks[tl.id], tl.filter)}
-        deleteTask={deleteTask}
-        changeTodolistFilter={changeTodolistFilter}
-        createTask={createTask}
-        changeTaskStatus={changeTaskStatus}
-        deleteTodolist={deleteTodolist}
-        changeTodolistTitle={changeTodolistTitle}
-        changeTaskTitle={changeTaskTitle}
-      />
+      <Grid key={tl.id}>
+        <Paper
+          elevation={8}
+          sx={{padding: '10px'}}
+        >
+          <TodolistItem
+            key={tl.id}
+            id={tl.id}
+            title={tl.title}
+            filter={tl.filter}
+            tasks={getFilteredTasks(tasks[tl.id], tl.filter)}
+            deleteTask={deleteTask}
+            changeTodolistFilter={changeTodolistFilter}
+            createTask={createTask}
+            changeTaskStatus={changeTaskStatus}
+            deleteTodolist={deleteTodolist}
+            changeTodolistTitle={changeTodolistTitle}
+            changeTaskTitle={changeTaskTitle}
+          />
+        </Paper>
+      </Grid>
+
+
     )
+  })
+
+  const [isDark, setIsDark] = useState(false)
+
+  const theme = createTheme({
+    palette: {
+      primary: indigo,
+      secondary: yellow,
+      mode: isDark ? 'dark' : 'light',
+    },
   })
 
   return (
     <div className="app">
-      {/*дает название для тудулиста*/}
-      <CreateItemForm createItem={createTodoList} />
-      {todolistComponents}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppBar position="static">
+          <Toolbar sx={containerSx}>
+            <IconButton color="inherit">
+              <MenuIcon />
+            </IconButton>
+            <div>
+              <Switch onChange={()=> setIsDark(!isDark)} />
+              <NavButton >Sign in</NavButton>
+              <NavButton >Sign up</NavButton>
+              <NavButton background={theme.palette.primary.light}>Faq</NavButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+        <Container maxWidth="lg">
+
+          <Grid
+            container
+            sx={{padding: '10px 0'}}
+          >
+            {/*дает название для тудулиста*/}
+            <CreateItemForm createItem={createTodoList} />
+          </Grid>
+          <Grid
+            container
+            spacing={4}
+          >
+            {todolistComponents}
+          </Grid>
+
+
+        </Container>
+      </ThemeProvider>
+
+
     </div>
   )
 }

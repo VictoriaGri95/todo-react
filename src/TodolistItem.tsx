@@ -1,8 +1,11 @@
-import {Button} from "./Button.tsx";
+// import {Button} from "./Button.tsx";
 import type {FilterValuesType, TodolistType} from "./App.tsx";
 import {Task} from "./Task.tsx";
 import {CreateItemForm} from "./CreateItemForm.tsx";
 import {EditableSpan} from "./EditableSpan.tsx";
+import {Box, Button, IconButton, List} from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {containerSx} from "./Todolistitem.styles.ts";
 
 type Props = {
   id: string;
@@ -51,16 +54,20 @@ export const TodolistItem = ({
 
   // const isTaskInputValid = taskInput && taskInput.length <= 10
   return (
-    <div>
+    <Box sx={{minWidth: '270px'}}>
       <h3>
         <EditableSpan
           title={title}
           changeTitle={changeTodolistTitleHandler}
         />
-        <Button
-          title={"Delete All"}
+
+        <IconButton
+          size="small"
           onClick={() => deleteTodolist(id)}
-        /></h3>
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
+      </h3>
 
       {/*<span>{filter}</span>*/}
 
@@ -70,7 +77,7 @@ export const TodolistItem = ({
       {
         tasks.length === 0
           ? <p>Тасок нет</p>
-          : <ul>
+          : <List disablePadding={true}>
             {
               tasks.map(task => {
 
@@ -98,25 +105,32 @@ export const TodolistItem = ({
                 }
               )
             }
-          </ul>
+          </List>
       }
-      <div>
+      <Box sx={containerSx}>
         <Button
-          title={'All'}
+          size={"small"}
+          color={filter === 'All' ? 'secondary' : "primary"}
+          variant="contained"
           onClick={() => changeTodolistFilter("All", id)}
           className={filter === "All" ? "filter-btn-active" : ""}
-        />
+        >All</Button>
         <Button
-          title={'Active'}
+          size={"small"}
+          color={filter === 'Active' ? 'secondary' : "primary"}
+          variant="contained"
           onClick={() => changeTodolistFilter("Active", id)}
           className={filter === "Active" ? "filter-btn-active" : ""}
-        />
+        >Active</Button>
         <Button
-          title={'Completed'}
+          size={"small"}
+          color={filter === 'Completed' ? 'secondary' : "primary"}
+          variant="contained"
           onClick={() => changeTodolistFilter("Completed", id)}
           className={filter === "Completed" ? "filter-btn-active" : ""}
-        />
-      </div>
-    </div>
+        >Completed</Button>
+
+      </Box>
+    </Box>
   )
 }

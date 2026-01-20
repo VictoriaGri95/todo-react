@@ -1,4 +1,3 @@
-
 import type {TaskType} from "./TodolistItem.ts";
 import {EditableSpan} from "./EditableSpan.tsx";
 import {Box, Checkbox, IconButton, ListItem} from "@mui/material";

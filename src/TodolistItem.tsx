@@ -1,4 +1,3 @@
-
 import type {FilterValuesType, TodolistType} from "./App.tsx";
 import {Task} from "./Task.tsx";
 import {CreateItemForm} from "./CreateItemForm.tsx";

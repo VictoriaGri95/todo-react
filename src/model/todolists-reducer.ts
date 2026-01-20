@@ -32,7 +32,7 @@ export const todolistsReducer = (todolists: TodolistType[], action: ActionType):
     case "create_todolist": {
       const {title, id} = action.payload
       const newTodolist: TodolistType = {
-        id: id,
+        id,
         title,
         filter: 'All'
       }
@@ -65,7 +65,7 @@ export const deleteTodolistAC = (id: TodolistType['id']): DeleteTodolistAT => {
   return {
     type: "delete_todolist",
     payload: {
-      id: id,
+      id,
     }
   }
 }
@@ -74,7 +74,7 @@ export const createTodolistAC = (title: TodolistType["title"]) => {
   return {
     type: "create_todolist",
     payload: {
-      title: title,
+      title,
       id: v1()
     }
   } as const

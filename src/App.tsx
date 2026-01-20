@@ -57,30 +57,12 @@ const App = () => {
   const todolistId1 = v1()
   const todolistId2 = v1()
 
-  // const [todolists, setTodolists] = useState<TodolistType[]>([
-  //   {id: todolistId1, title: 'What to learn', filter: 'All'},
-  //   {id: todolistId2, title: 'What to buy', filter: 'All'},
-  // ])
-
-
   // вместо setState
   const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [
     {id: todolistId1, title: 'What to learn', filter: 'All'},
     {id: todolistId2, title: 'What to buy', filter: 'All'},
   ])
 
-
-  // const [tasks, setTasks] = useState<TasksStateType>({
-  //   [todolistId1]: [
-  //     {id: v1(), title: 'HTML&CSS', isDone: true},
-  //     {id: v1(), title: 'JS', isDone: true},
-  //     {id: v1(), title: 'ReactJS', isDone: false},
-  //   ],
-  //   [todolistId2]: [
-  //     {id: v1(), title: 'Rest API', isDone: true},
-  //     {id: v1(), title: 'GraphQL', isDone: false},
-  //   ],
-  // })
 
   const [tasks, dispatchToTasks] = useReducer(tasksReducer, {
     [todolistId1]: [
@@ -98,15 +80,9 @@ const App = () => {
 //CRUD for tasks
   const deleteTask = (id: TaskType['id'], todolistId: TodolistType['id']) => {
     dispatchToTasks(deleteTaskAC({id, todolistId}))
-    // setTasks({
-    //   ...tasks,
-    //   [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)
-    // })
   }
 
   const createTask = (title: TaskType['title'], todolistId: TodolistType['id']) => {
-    // const newTask = {id: v1(), title, isDone: false}
-    // setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
     dispatchToTasks(createTaskAC({title, todolistId}))
   }
 
@@ -121,49 +97,23 @@ const App = () => {
 
   //CRUD for todolist
   const deleteTodolist = (id: TodolistType['id']) => {
-    // setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
     dispatchToTodolists(deleteTodolistAC(id))
-
-    // const copyTasksState = {...tasks}
-    // delete copyTasksState[id]
-    // setTasks(copyTasksState)
-
     dispatchToTasks(deleteTodolistAC(id))
-
   }
 
   const createTodoList = (title: TodolistType['title']) => {
     const action = createTodolistAC(title)
     dispatchToTodolists(action)
-    //
-    // const newTodolistId = v1()
-    // const newTodolist: TodolistType = {
-    //   id: newTodolistId,
-    //   title,
-    //   filter: 'All',
-    // }
-    // setTodolists([...todolists, newTodolist])
     dispatchToTasks(createTodolistAC(title))
-    // setTasks({...tasks, [action.payload.id]: []})
+
   }
 
   const changeTodolistTitle = (title: TodolistType['title'], id: TodolistType['id']) => {
-    // setTodolists(todolists.map(todolist => todolist.id === todolistId ? {
-    //   ...todolist,
-    //   title,
-    // } : todolist))
-    dispatchToTodolists(changeTodolistTitleAC({id: id, title}))
+    dispatchToTodolists(changeTodolistTitleAC({id, title}))
   }
 
   const changeTodolistFilter = (filter: FilterValuesType, todolistId: TodolistType['id']) => {
-    // setTodolists(todolists.map(todolist => todolist.id === todolistId ? {
-    //   ...todolist,
-    //   filter
-    // } : todolist))
-    dispatchToTodolists(changeTodolistFilterAC({
-      id: todolistId,
-      filter: filter
-    }))
+    dispatchToTodolists(changeTodolistFilterAC({id: todolistId, filter}))
   }
 
 
